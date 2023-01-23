@@ -1,0 +1,131 @@
+\input{lib-tudo}
+\usepackage{esint} % command: \oiint
+\usepackage{amsmath} % environment: align, align*, more.. !
+%\usepackage{amssymb} % command: \mathbb % XXX: already loaded by lib-tudo.tex?
+\usepackage{physics} % command: \vectorbold, \dd, \dv, ... lots!
+\usepackage{graphicx} % command: \includegraphics
+\usepackage{datetime} % command: currenttime
+\usepackage{svg} % command: \includesvg
+\usepackage{xstring} % command: \IfEqCase
+\usepackage{xcolor} % command: \color
+\usepackage{tabularx} % environment: tabularx
+\usepackage{longtable} % environment: longtable <- it has page breaks..
+\usepackage{parskip} % remove indentation after paragraph % FIXME: conflict with scrartcl loaded by 'lib-tudo.tex'
+%\usepackage[nobottomtitles*]{titlesec} % avoid page break directly after headlines % FIXME: TU-Do template conflicts with this!
+%\renewcommand{\bottomtitlespace}{0.25\textheight}
+\usepackage[backend=biber,sorting=none]{biblatex} % sorting=none -> sortiert nach reihenfolge der zitierung im text
+%\usepackage{geometry} % command: \geometry
+%\geometry{bottom=3cm}
+% notes:
+\newcommand{\withoutindent}[1]{\setlength{\parindent}{0pt}#1\setlength{\parindent}{1.5em}}
+\newcommand{\note}[1]{{\it{}Hinweis:} #1}
+\newcommand{\Q}[1]{\fbox{\parbox{\textwidth}{{\it{}Frage:} #1}}}
+\newcommand{\err}[1]{\withoutindent{\\{\it{}Fehler:} #1}}
+\newcommand{\TODO}[1]{\withoutindent{{\color{red}\textbf{TODO}: #1}}}
+% usage: \figureWithWidth {1: path-to-img (relative to cwd)} {2: caption} {3: width, e.g. 1, 0.6, ..} {4: optional post fix, e.g. \label{fig:xy}} {5: image type, e.g. png, svg}
+\newcommand{\figureWithWidth}[5]{%
+\begin{figure}[ht!]
+  \centering
+  \IfEqCase{#5}{
+    {png}{\includegraphics[width=#3\textwidth]{#1}}
+    {pdf}{\includegraphics[width=#3\textwidth]{#1}}
+    {svg}{\includesvg[width=#3\textwidth]{#1}}
+  }[\PackageError{figureWithWidth}{Undefined image type}]
+  \caption{#2}
+  #4
+\end{figure}%
+}
+% usage: \plotSVG \plotPNGSmall \picture {1: path} {2: caption} {3: label}
+\newcommand{\plotSVG}[3]{\figureWithWidth{#1}{#2}{1.0}{\label{#3}}{svg}}
+\newcommand{\plotPDF}[3]{\figureWithWidth{#1}{#2}{1.0}{\label{#3}}{pdf}}
+\newcommand{\plotPNG}[3]{\figureWithWidth{#1}{#2}{1.0}{\label{#3}}{png}}
+\newcommand{\plotPNGSmall}[3]{\figureWithWidth{#1}{#2}{0.6}{\label{#3}}{png}}
+% usage: \includepdf{<path>}{<caption>}{<label>}{<page>}
+\newcommand{\includePdf}[4]{
+%\newpage
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.8\textwidth,page=#4]{#1}
+\caption{#2}
+\label{#3}
+\end{figure}
+%\newpage
+}
+% doing math:
+\newcommand{\EQ}[1]{\begin{align*}#1\end{align*}}
+\newcommand{\EQNUM}[1]{\begin{align}#1\end{align}}
+% inside math:
+\newcommand{\EQU}{\quad\Leftrightarrow\quad}
+\newcommand{\mbeq}{\overset{!}{=}}
+\newcommand{\expl}[1]{\ \Big\vert\ \text{#1}\ }
+\newcommand{\expli}[1]{\quad \text{#1}\ }
+\newcommand{\mat}[1]{\vectorbold{#1}}
+\newcommand{\vv}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\vvv}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
+\newcommand{\vvvv}[4]{\begin{pmatrix}#1\\#2\\#3\\#4\end{pmatrix}}
+\renewcommand{\phi}{\varphi}
+\newcommand{\Nabla}{\vvv{\pdv{x}}{\pdv{y}}{\pdv{z}}} % physics package rocks!
+\newcommand{\nablav}{\vec{\nabla}}
+\newcommand{\equcuz}[1]{\stackrel{#1}{=}}
+\newcommand{\vnorm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\Set}[1]{\left\{#1\right\}}
+\newcommand{\Par}[1]{\left(#1\right)}
+\newcommand{\Parc}[1]{\left[#1\right]}
+\newcommand{\Parb}[1]{\big(#1\big)}
+\newcommand{\vmid}{\ \middle|\ }
+\newcommand{\dist}[1]{\overline{#1}}
+\newcommand{\Unit}[1]{\,\text{#1}}
+\newcommand{\UnitFrac}[2]{\,\frac{\text{#1}}{\text{#2}}}
+\newcommand{\degC}{\,^\circ\text{C}}
+\renewcommand{\deg}{\,^\circ}
+\newcommand{\Expected}[1]{\left\langle#1\right\rangle}
+% other:
+\newcommand{\enum}[1]{\begin{enumerate}#1\end{enumerate}}
+% \tableAny {caption} {layout} {label} {content}
+\newcommand{\tableAny}[4]{
+\begin{longtable}{#2}\caption{#1}\label{#3}#4\hline
+\end{longtable}
+}
+\newcommand{\headerAny}[1]{%
+\\\hline#1\\\hline
+\endfirsthead
+\caption[]{(Fortsetsung)}
+\\\hline#1\\\hline
+\endhead
+}
+\newcommand{\entryAny}[1]{#1\\}
+% formatting:
+\renewcommand{\figurename}{Abbildung}
+\newcommand{\Abbildung}[1]{Abbildung [\ref{#1}]}
+\newcommand{\Tabelle}[1]{Tabelle [\ref{#1}]}
+\newcommand{\Gleichung}[1]{Gleichung [\ref{#1}]}
+\newcommand{\Abschnitt}[1]{Abschnitt [\ref{#1}]}
+% praktikum:
+\addbibresource{literature.bib}
+\newcommand{\header}{
+  \maketitle
+  \thispagestyle{empty}
+  \tableofcontents
+  \newpage
+}
+\newcommand{\Zielsetzung}{\section{Zielsetzung}\label{sec:zielsetzung}}
+\newcommand{\Theorie}{\section{Theorie}\label{sec:theorie}}
+\newcommand{\Aufgabe}{\section{Aufgabe}\label{sec:aufgabe}}
+\newcommand{\Vorbereitung}{\section{Vorbereitung}\label{sec:vorbereitung}}
+\newcommand{\VersuchsaufbauUndDurchfuehrung}{\section{Versuchsaufbau und Durchführung}\label{sec:aufbaudurchfuehr}}
+\newcommand{\Versuchsaufbau}{\section{Versuchsaufbau}\label{sec:aufbau}}
+\newcommand{\Versuchsdurchfuehrung}{\section{Durchführung}\label{sec:durchfuehrung}}
+\newcommand{\Messwerte}{\section{Messwerte}\label{sec:messwerte}}
+\newcommand{\Auswertung}{\section{Auswertung}\label{sec:auswertung}}
+\newcommand{\Diskussion}{\section{Diskussion}\label{sec:diskussion}}
+\newcommand{\Literatur}{\newpage{}\printbibliography{}}
+\newcommand{\Anhang}{\section*{Anhang}\label{sec:anhang}}
+\newcommand{\initVersuchAm}[1]{
+  \subject{\experimentNo}
+  \title{V\experimentNo: \experimentName}
+  \date{%
+    Durchführung: #1
+    \hspace{1em}
+    Abgabe: \today
+  }
+}

@@ -1,0 +1,24 @@
+# editors
+**.vim
+
+# latex
+**.aux
+**.fdb_latexmk
+**.fls
+**.log
+**.out
+#**.pdf
+**.synctex
+**.bbl
+**.bcf
+**.blg
+**.run.xml
+**.svg
+**.toc
+svg-inkscape/
+
+# python
+__pycache__/
+
+# misc
+.syncthing*

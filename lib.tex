@@ -10,14 +10,16 @@
 \usepackage{xcolor} % command: \color
 \usepackage{tabularx} % environment: tabularx
 \usepackage{longtable} % environment: longtable <- it has page breaks..
-\usepackage{parskip} % remove indentation after paragraph % FIXME: conflict with scrartcl loaded by 'lib-tudo.tex'
+\usepackage{wrapfig} % environment: wrapfigure
+\usepackage{subfigure} % environment: wrapfigure
 %\usepackage[nobottomtitles*]{titlesec} % avoid page break directly after headlines % FIXME: TU-Do template conflicts with this!
 %\renewcommand{\bottomtitlespace}{0.25\textheight}
 \usepackage[backend=biber,sorting=none]{biblatex} % sorting=none -> sortiert nach reihenfolge der zitierung im text
 %\usepackage{geometry} % command: \geometry
 %\geometry{bottom=3cm}
 % notes:
-\newcommand{\withoutindent}[1]{\setlength{\parindent}{0pt}#1\setlength{\parindent}{1.5em}}
+%\newcommand{\withoutindent}[1]{\setlength{\parindent}{0pt}#1\setlength{\parindent}{1.5em}}
+\newcommand{\withoutindent}[1]{#1}
 \newcommand{\note}[1]{{\it{}Hinweis:} #1}
 \newcommand{\Q}[1]{\fbox{\parbox{\textwidth}{{\it{}Frage:} #1}}}
 \newcommand{\err}[1]{\withoutindent{\\{\it{}Fehler:} #1}}
@@ -35,12 +37,22 @@
   #4
 \end{figure}%
 }
-% usage: \plotSVG \plotPNGSmall \picture {1: path} {2: caption} {3: label}
+% usage: \plot* {1: path} {2: caption} {3: label}
 \newcommand{\plotSVG}[3]{\figureWithWidth{#1}{#2}{1.0}{\label{#3}}{svg}}
 \newcommand{\plotPDF}[3]{\figureWithWidth{#1}{#2}{1.0}{\label{#3}}{pdf}}
 \newcommand{\plotPNG}[3]{\figureWithWidth{#1}{#2}{1.0}{\label{#3}}{png}}
 \newcommand{\plotPNGSmall}[3]{\figureWithWidth{#1}{#2}{0.6}{\label{#3}}{png}}
-% usage: \includepdf{<path>}{<caption>}{<label>}{<page>}
+\newcommand{\plotPNGTiny}[3]{\figureWithWidth{#1}{#2}{0.3}{\label{#3}}{png}}
+\newcommand{\plotPNGWrap}[3]{
+\begin{wrapfigure}{r}{0.35\textwidth}
+  \begin{center}
+    \includegraphics[width=0.3\textwidth]{#1}
+  \end{center}
+  \caption{#2}
+  \label{#3}
+\end{wrapfigure}
+}
+% usage: \includePdf{<path>}{<caption>}{<label>}{<page>}
 \newcommand{\includePdf}[4]{
 %\newpage
 \begin{figure}[ht!]
@@ -96,10 +108,6 @@
 \newcommand{\entryAny}[1]{#1\\}
 % formatting:
 \renewcommand{\figurename}{Abbildung}
-\newcommand{\Abbildung}[1]{Abbildung [\ref{#1}]}
-\newcommand{\Tabelle}[1]{Tabelle [\ref{#1}]}
-\newcommand{\Gleichung}[1]{Gleichung [\ref{#1}]}
-\newcommand{\Abschnitt}[1]{Abschnitt [\ref{#1}]}
 % praktikum:
 \addbibresource{literature.bib}
 \newcommand{\header}{

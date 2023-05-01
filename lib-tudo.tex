@@ -2,6 +2,7 @@
   bibliography=totoc,     % Literatur im Inhaltsverzeichnis
   captions=tableheading,  % Tabellenüberschriften
   titlepage=firstiscover, % Titelseite ist Deckblatt
+  parskip=half,
 ]{scrartcl}
 \usepackage[utf8]{inputenc}
 
@@ -53,6 +54,7 @@
   separate-uncertainty=true,   % immer Unsicherheit mit \pm
   per-mode=symbol-or-fraction, % / in inline math, fraction in display math
 ]{siunitx}
+\sisetup{output-decimal-marker = {.}}
 
 % chemische Formeln
 \usepackage[

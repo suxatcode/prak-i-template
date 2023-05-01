@@ -23,7 +23,6 @@ tex_tables.append(
     {
         "tex": "TODOREMOVETHIS",
         "name": r"Messreihe $X_i$",
-        "label": "tab:messreihei",
         "rowdescription": [r"$X_i$", r"$\alpha{}_i$"],
         "content": data,
     }
@@ -55,7 +54,7 @@ def exampleplot():
     plt.ylabel(r"$y \mathbin{/} \unit{\micro\joule}$")
     plt.legend(loc="best")
     # in matplotlibrc leider (noch) nicht möglich
-    fuckinglayout(plt)
+    plotdefaults(plt)
     plt.savefig("plot.pdf")
 
 

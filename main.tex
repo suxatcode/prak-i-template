@@ -7,56 +7,46 @@
 \newcommand{\experimentName}{VERSUCHNAME}
 \initVersuchAm{TODO}
 \author{%
-  NAME NACHNAME\\%
-  \href{mailto:NAME.NACHNAME@udo.edu}{NAME.NACHNAME@udo.edu}%
-  %\and%
-  %NAME NACHNAME\\%
-  %\href{mailto:NAME.NACHNAME@udo.edu}{NAME.NACHNAME@udo.edu}%
+  Laurin Hagemann\\%
+  \href{mailto:laurin.hagemann@udo.edu}{laurin.hagemann@udo.edu}%
+  \and%
+  Karolina Glasnovic\\%
+  \href{mailto:karolina.glasnovic@udo.edu}{karolina.glasnovic@udo.edu}%
 }
 
 \begin{document}
 \header{}
 
 \Zielsetzung{}
-\TODO{Warum sind wir hier?}
+\input{section/zielsetzung}
 
 \Theorie{}
-\TODO{In knapper Form. \cite{prak:versuchsanleitung}}
+\input{section/theorie}
 
 \Aufgabe{}
-\TODO{Die Meßaufgaben sind auf zu listen.}
+\input{section/aufgabe}
 
 \Vorbereitung{}
-\TODO{Die Bearbeitung der Vorbereitungsaufgaben.}
+\input{section/vorbereitung}
 
 \Versuchsaufbau{}
-\TODO{Eine Beschreibung der verwendeten Versuchsapparatur, sowie eine Beschreibung deren Funktionsweise (mit Skizze des Versuchs.)}
-\TODO{Durchführung: wie wurde gemessen?}
+\input{section/versuchsaufbau}
+
+\Versuchsdurchfuehrung{}
+\input{section/versuchsdurchfuehrung}
 
 \Messwerte{}
-\plotPDF{plot.pdf}{\TODO{remove this example plot}}{fig:example}
-\TODO{Alle gemessenen physikalischen Größen sind übersichtlich dar zu stellen. (Bsp: $\pyTODOREMOVETHISUn\UnitFrac{A}{B}$)
-\enum{
-  \item Messfehler müssen per hand ausgerechnet werden (im Grundpraktikum) -- d.h. Ableitungen hinschreiben!
-  \item Evtl. Tabelle -- mit Mittelwert, $\sigma$ und $\sigma/\sqrt{N}$.
-  \item Vergleich mit Literaturwert. (innerhalb der Messunsicherheit? Wenn nicht, warum? Welche unsichheiten/Fehler nicht betrachtet?)
-}}
+\input{section/messwerte}
 
 \Auswertung{}
-\TODO{Alle Zwischenrechnungen und kurze Erläuterung des Rechenwegs.}
+\input{section/auswertung}
 
 \Diskussion{}
-\TODO{\enum{
-  \item Resultate unter Beachtung der berechneten Fehler und Genauigkeit zusammenstellen.
-  \item Mit Literatur vergleichen.
-  \item Vergleich verschiedener Messverfahren.
-  \item Möglich Ursachen für Abweichung.
-}}
+\input{section/diskussion}
 
 \Literatur{}
 
 \Anhang{}
-\makeTableTODOREMOVETHIS{fig:messreihedefault}
-\TODO{Kopie der Originaldaten.}
+\input{section/anhang}
 
 \end{document}

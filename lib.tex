@@ -5,13 +5,13 @@
 \usepackage{physics} % command: \vectorbold, \dd, \dv, ... lots!
 \usepackage{graphicx} % command: \includegraphics
 \usepackage{datetime} % command: currenttime
-\usepackage{svg} % command: \includesvg
+%\usepackage{svg} % command: \includesvg
 \usepackage{xstring} % command: \IfEqCase
 \usepackage{xcolor} % command: \color
 \usepackage{tabularx} % environment: tabularx
 \usepackage{longtable} % environment: longtable <- it has page breaks..
 \usepackage{wrapfig} % environment: wrapfigure
-\usepackage{subfigure} % environment: wrapfigure
+%\usepackage{subfigure} % environment: wrapfigure
 %\usepackage[nobottomtitles*]{titlesec} % avoid page break directly after headlines % FIXME: TU-Do template conflicts with this!
 %\renewcommand{\bottomtitlespace}{0.25\textheight}
 \usepackage[backend=biber,sorting=none]{biblatex} % sorting=none -> sortiert nach reihenfolge der zitierung im text
@@ -31,14 +31,14 @@
   \IfEqCase{#5}{
     {png}{\includegraphics[width=#3\textwidth]{#1}}
     {pdf}{\includegraphics[width=#3\textwidth]{#1}}
-    {svg}{\includesvg[width=#3\textwidth]{#1}}
+  %  {svg}{\includesvg[width=#3\textwidth]{#1}}
   }[\PackageError{figureWithWidth}{Undefined image type}]
   \caption{#2}
   #4
 \end{figure}%
 }
 % usage: \plot* {1: path} {2: caption} {3: label}
-\newcommand{\plotSVG}[3]{\figureWithWidth{#1}{#2}{1.0}{\label{#3}}{svg}}
+%\newcommand{\plotSVG}[3]{\figureWithWidth{#1}{#2}{1.0}{\label{#3}}{svg}}
 \newcommand{\plotPDF}[3]{\figureWithWidth{#1}{#2}{1.0}{\label{#3}}{pdf}}
 \newcommand{\plotPNG}[3]{\figureWithWidth{#1}{#2}{1.0}{\label{#3}}{png}}
 \newcommand{\plotPNGSmall}[3]{\figureWithWidth{#1}{#2}{0.6}{\label{#3}}{png}}

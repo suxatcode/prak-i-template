@@ -120,7 +120,7 @@ def maketables():
         tabcopy = dict(table)
         try:
             length = len(table["content"][0])
-        except TypeError:
+        except (TypeError, IndexError):
             length = 1
         tabcopy["layout"] = "|" + "|".join(["r"] * length) + "|"
         tabcopy["content"] = (

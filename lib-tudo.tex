@@ -25,6 +25,7 @@
 \recalctypearea{}
 
 % deutsche Spracheinstellungen
+% \usepackage[german]{babel}
 \usepackage[english]{babel}
 
 
@@ -49,12 +50,22 @@
 \setmathfont{XITS Math}[range={cal, bfcal}, StylisticSet=1]
 
 % Zahlen und Einheiten
-\usepackage[
-  locale=US,                   % deutsche Einstellungen
-  separate-uncertainty=true,   % immer Unsicherheit mit \pm
-  per-mode=symbol-or-fraction, % / in inline math, fraction in display math
-]{siunitx}
-\sisetup{output-decimal-marker = {.}}
+\iflanguage{german}{
+    \usepackage[
+        locale=DE,                   % deutsche Einstellungen
+        separate-uncertainty=true,   % immer Unsicherheit mit \pm
+        per-mode=symbol-or-fraction, % / in inline math, fraction in display math
+    ]{siunitx}
+    \sisetup{output-decimal-marker = {.}}
+}{}
+\iflanguage{english}{
+    \usepackage[
+        locale=US,                   % englische Einstellungen
+        separate-uncertainty=true,   % immer Unsicherheit mit \pm
+        per-mode=symbol-or-fraction, % / in inline math, fraction in display math
+    ]{siunitx}
+    \sisetup{output-decimal-marker = {,}}
+}{}
 
 % chemische Formeln
 \usepackage[

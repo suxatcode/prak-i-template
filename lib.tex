@@ -116,7 +116,9 @@
 }
 \newcommand{\entryAny}[1]{#1\\}
 % formatting:
-\renewcommand{\figurename}{Abbildung}
+\iflanguage{german}{
+    \renewcommand{\figurename}{Abbildung}
+}{}
 % praktikum:
 \addbibresource{literature.bib}
 \newcommand{\header}{
@@ -126,47 +128,52 @@
   \newpage
 }
 
-% english
-\newcommand{\Zielsetzung}{\section{Goal}\label{sec:zielsetzung}}
-\newcommand{\Theorie}{\section{Theory}\label{sec:theorie}}
-\newcommand{\Aufgabe}{\section{Task}\label{sec:aufgabe}}
-\newcommand{\Vorbereitung}{\section{Preparation}\label{sec:vorbereitung}}
-\newcommand{\VersuchsaufbauUndDurchfuehrung}{\section{Experimental Setup and Experimental Procedure}\label{sec:aufbaudurchfuehr}}
-\newcommand{\Versuchsaufbau}{\section{Experimental Setup}\label{sec:aufbau}}
-\newcommand{\Versuchsdurchfuehrung}{\section{Experimental Procedure}\label{sec:durchfuehrung}}
-\newcommand{\Messwerte}{\section{Measurements}\label{sec:messwerte}}
-\newcommand{\Auswertung}{\section{Analysis}\label{sec:auswertung}}
-\newcommand{\Diskussion}{\section{Discussion}\label{sec:diskussion}}
-\newcommand{\Literatur}{\newpage{}\printbibliography{}}
-\newcommand{\Anhang}{\section*{Appendix}\label{sec:anhang}}
-\newcommand{\initVersuchAm}[1]{
-\subject{\experimentNo}
-\title{V\experimentNo: \experimentName}
-\date{%
-    Experiment: #1
-    \hspace{1em}
-    Submission: \today
+\iflanguage{english}{
+    % english
+    \newcommand{\Zielsetzung}{\section{Goal}\label{sec:zielsetzung}}
+    \newcommand{\Theorie}{\section{Theory}\label{sec:theorie}}
+    \newcommand{\Aufgabe}{\section{Task}\label{sec:aufgabe}}
+    \newcommand{\Vorbereitung}{\section{Preparation}\label{sec:vorbereitung}}
+    \newcommand{\VersuchsaufbauUndDurchfuehrung}{\section{Experimental Setup and Experimental Procedure}\label{sec:aufbaudurchfuehr}}
+    \newcommand{\Versuchsaufbau}{\section{Experimental Setup}\label{sec:aufbau}}
+    \newcommand{\Versuchsdurchfuehrung}{\section{Experimental Procedure}\label{sec:durchfuehrung}}
+    \newcommand{\Messwerte}{\section{Measurements}\label{sec:messwerte}}
+    \newcommand{\Auswertung}{\section{Analysis}\label{sec:auswertung}}
+    \newcommand{\Diskussion}{\section{Discussion}\label{sec:diskussion}}
+    \newcommand{\Literatur}{\newpage{}\printbibliography{}}
+    \newcommand{\Anhang}{\section*{Appendix}\label{sec:anhang}}
+    \newcommand{\initVersuchAm}[1]{
+    \subject{\experimentNo}
+    \title{V\experimentNo: \experimentName}
+    \date{%
+        Experiment: #1
+        \hspace{1em}
+        Submission: \today
+    }
+    }
+}{
+\iflanguage{german}{
+    % german
+    \newcommand{\Zielsetzung}{\section{Zielsetzung}\label{sec:zielsetzung}}
+    \newcommand{\Theorie}{\section{Theorie}\label{sec:theorie}}
+    \newcommand{\Aufgabe}{\section{Aufgabe}\label{sec:aufgabe}}
+    \newcommand{\Vorbereitung}{\section{Vorbereitung}\label{sec:vorbereitung}}
+    \newcommand{\VersuchsaufbauUndDurchfuehrung}{\section{Versuchsaufbau und Durchführung}\label{sec:aufbaudurchfuehr}}
+    \newcommand{\Versuchsaufbau}{\section{Versuchsaufbau}\label{sec:aufbau}}
+    \newcommand{\Versuchsdurchfuehrung}{\section{Durchführung}\label{sec:durchfuehrung}}
+    \newcommand{\Messwerte}{\section{Messwerte}\label{sec:messwerte}}
+    \newcommand{\Auswertung}{\section{Auswertung}\label{sec:auswertung}}
+    \newcommand{\Diskussion}{\section{Diskussion}\label{sec:diskussion}}
+    \newcommand{\Literatur}{\newpage{}\printbibliography{}}
+    \newcommand{\Anhang}{\section*{Anhang}\label{sec:anhang}}
+    \newcommand{\initVersuchAm}[1]{
+    \subject{\experimentNo}
+    \title{V\experimentNo: \experimentName}
+    \date{%
+        Durchführung: #1
+        \hspace{1em}
+        Abgabe: \today
+    }
+    }
+}{}
 }
-}
-% german
-% \newcommand{\Zielsetzung}{\section{Zielsetzung}\label{sec:zielsetzung}}
-% \newcommand{\Theorie}{\section{Theorie}\label{sec:theorie}}
-% \newcommand{\Aufgabe}{\section{Aufgabe}\label{sec:aufgabe}}
-% \newcommand{\Vorbereitung}{\section{Vorbereitung}\label{sec:vorbereitung}}
-% \newcommand{\VersuchsaufbauUndDurchfuehrung}{\section{Versuchsaufbau und Durchführung}\label{sec:aufbaudurchfuehr}}
-% \newcommand{\Versuchsaufbau}{\section{Versuchsaufbau}\label{sec:aufbau}}
-% \newcommand{\Versuchsdurchfuehrung}{\section{Durchführung}\label{sec:durchfuehrung}}
-% \newcommand{\Messwerte}{\section{Messwerte}\label{sec:messwerte}}
-% \newcommand{\Auswertung}{\section{Auswertung}\label{sec:auswertung}}
-% \newcommand{\Diskussion}{\section{Diskussion}\label{sec:diskussion}}
-% \newcommand{\Literatur}{\newpage{}\printbibliography{}}
-% \newcommand{\Anhang}{\section*{Anhang}\label{sec:anhang}}
-% \newcommand{\initVersuchAm}[1]{
-% \subject{\experimentNo}
-% \title{V\experimentNo: \experimentName}
-% \date{%
-%     Durchführung: #1
-%     \hspace{1em}
-%     Abgabe: \today
-% }
-% }

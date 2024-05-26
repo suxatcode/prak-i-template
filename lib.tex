@@ -6,7 +6,7 @@
 \AtBeginDocument{\RenewCommandCopy\qty\SI} % Clara möchte qty verwenden!
 \usepackage{graphicx} % command: \includegraphics
 \usepackage{datetime} % command: currenttime
-%\usepackage{svg} % command: \includesvg
+\usepackage{svg} % command: \includesvg
 \usepackage{xstring} % command: \IfEqCase
 \usepackage{xcolor} % command: \color
 \usepackage{tabularx} % environment: tabularx
@@ -32,14 +32,14 @@
   \IfEqCase{#5}{
     {png}{\includegraphics[width=#3\textwidth]{#1}}
     {pdf}{\includegraphics[width=#3\textwidth]{#1}}
-  %  {svg}{\includesvg[width=#3\textwidth]{#1}}
+    {svg}{\includesvg[width=#3\textwidth]{#1}}
   }[\PackageError{figureWithWidth}{Undefined image type}]
   \caption{#2}
   #4
 \end{figure}%
 }
 % usage: \plot* {1: path} {2: caption} {3: label}
-%\newcommand{\plotSVG}[3]{\figureWithWidth{#1}{#2}{1.0}{\label{#3}}{svg}}
+\newcommand{\plotSVG}[3]{\figureWithWidth{#1}{#2}{1.0}{\label{#3}}{svg}}
 \newcommand{\plotPDF}[3]{\figureWithWidth{#1}{#2}{1.0}{\label{#3}}{pdf}}
 \newcommand{\plotPNG}[3]{\figureWithWidth{#1}{#2}{1.0}{\label{#3}}{png}}
 \newcommand{\plotPNGSmall}[3]{\figureWithWidth{#1}{#2}{0.6}{\label{#3}}{png}}
@@ -100,10 +100,17 @@
 \begin{longtable}{#2}\caption{#1}\label{#3}#4\hline
 \end{longtable}
 }
+\iflanguage{english}{
+    \newcommand{\headerAnyTableContinued}{Continued}
+}{
+\iflanguage{german}{
+    \newcommand{\headerAnyTableContinued}{Fortsetsung}
+}{}
+}
 \newcommand{\headerAny}[1]{%
 \\\hline#1\\\hline
 \endfirsthead
-\caption[]{(Fortsetsung)}
+\caption[]{(\headerAnyTableContinued)}
 \\\hline#1\\\hline
 \endhead
 }
@@ -118,24 +125,48 @@
   \tableofcontents
   \newpage
 }
-\newcommand{\Zielsetzung}{\section{Zielsetzung}\label{sec:zielsetzung}}
-\newcommand{\Theorie}{\section{Theorie}\label{sec:theorie}}
-\newcommand{\Aufgabe}{\section{Aufgabe}\label{sec:aufgabe}}
-\newcommand{\Vorbereitung}{\section{Vorbereitung}\label{sec:vorbereitung}}
-\newcommand{\VersuchsaufbauUndDurchfuehrung}{\section{Versuchsaufbau und Durchführung}\label{sec:aufbaudurchfuehr}}
-\newcommand{\Versuchsaufbau}{\section{Versuchsaufbau}\label{sec:aufbau}}
-\newcommand{\Versuchsdurchfuehrung}{\section{Durchführung}\label{sec:durchfuehrung}}
-\newcommand{\Messwerte}{\section{Messwerte}\label{sec:messwerte}}
-\newcommand{\Auswertung}{\section{Auswertung}\label{sec:auswertung}}
-\newcommand{\Diskussion}{\section{Diskussion}\label{sec:diskussion}}
+
+% english
+\newcommand{\Zielsetzung}{\section{Goal}\label{sec:zielsetzung}}
+\newcommand{\Theorie}{\section{Theory}\label{sec:theorie}}
+\newcommand{\Aufgabe}{\section{Task}\label{sec:aufgabe}}
+\newcommand{\Vorbereitung}{\section{Preparation}\label{sec:vorbereitung}}
+\newcommand{\VersuchsaufbauUndDurchfuehrung}{\section{Experimental Setup and Experimental Procedure}\label{sec:aufbaudurchfuehr}}
+\newcommand{\Versuchsaufbau}{\section{Experimental Setup}\label{sec:aufbau}}
+\newcommand{\Versuchsdurchfuehrung}{\section{Experimental Procedure}\label{sec:durchfuehrung}}
+\newcommand{\Messwerte}{\section{Measurements}\label{sec:messwerte}}
+\newcommand{\Auswertung}{\section{Analysis}\label{sec:auswertung}}
+\newcommand{\Diskussion}{\section{Discussion}\label{sec:diskussion}}
 \newcommand{\Literatur}{\newpage{}\printbibliography{}}
-\newcommand{\Anhang}{\section*{Anhang}\label{sec:anhang}}
+\newcommand{\Anhang}{\section*{Appendix}\label{sec:anhang}}
 \newcommand{\initVersuchAm}[1]{
-  \subject{\experimentNo}
-  \title{V\experimentNo: \experimentName}
-  \date{%
-    Durchführung: #1
+\subject{\experimentNo}
+\title{V\experimentNo: \experimentName}
+\date{%
+    Experiment: #1
     \hspace{1em}
-    Abgabe: \today
-  }
+    Submission: \today
 }
+}
+% german
+% \newcommand{\Zielsetzung}{\section{Zielsetzung}\label{sec:zielsetzung}}
+% \newcommand{\Theorie}{\section{Theorie}\label{sec:theorie}}
+% \newcommand{\Aufgabe}{\section{Aufgabe}\label{sec:aufgabe}}
+% \newcommand{\Vorbereitung}{\section{Vorbereitung}\label{sec:vorbereitung}}
+% \newcommand{\VersuchsaufbauUndDurchfuehrung}{\section{Versuchsaufbau und Durchführung}\label{sec:aufbaudurchfuehr}}
+% \newcommand{\Versuchsaufbau}{\section{Versuchsaufbau}\label{sec:aufbau}}
+% \newcommand{\Versuchsdurchfuehrung}{\section{Durchführung}\label{sec:durchfuehrung}}
+% \newcommand{\Messwerte}{\section{Messwerte}\label{sec:messwerte}}
+% \newcommand{\Auswertung}{\section{Auswertung}\label{sec:auswertung}}
+% \newcommand{\Diskussion}{\section{Diskussion}\label{sec:diskussion}}
+% \newcommand{\Literatur}{\newpage{}\printbibliography{}}
+% \newcommand{\Anhang}{\section*{Anhang}\label{sec:anhang}}
+% \newcommand{\initVersuchAm}[1]{
+% \subject{\experimentNo}
+% \title{V\experimentNo: \experimentName}
+% \date{%
+%     Durchführung: #1
+%     \hspace{1em}
+%     Abgabe: \today
+% }
+% }

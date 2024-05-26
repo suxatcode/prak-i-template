@@ -1,7 +1,7 @@
 #`-file-line-error` is similar to `--interaction nonstopmode`, but shows the concrete line number
 #Remove it, it you want pdflatex to stop on errors
 $pdflatex = 'lualatex -shell-escape -file-line-error --interaction nonstopmode --synctex=-1 %O %S';
-#$pdf_previewer = 'evince';
+#$pdf_previewer = 'evince'; # commented out for windows compatibility (┙>∧<)┙へ┻┻
 $preview_mode = 0;
 #automatically call lualatex/pdflatex (instead of latex)
 $pdf_mode = 1;

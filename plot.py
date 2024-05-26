@@ -36,7 +36,7 @@ tex_tables.append(
 # ax[0].set_xlabel("d [cm]")
 # ax[0].set_ylabel("N [1/60s]")
 # ax[0].legend()
-# plt.savefig("plot.pdf")
+# plt.savefig("plot.svg")
 # plt.show()
 
 
@@ -45,17 +45,16 @@ def exampleplot():
     y = x ** np.sin(x)
     plt.subplot(1, 2, 1)
     plt.plot(x, y, label="Kurve")
-    plt.xlabel(r"$\alpha \mathbin{/} \unit{\ohm}$")
-    plt.ylabel(r"$y \mathbin{/} \unit{\micro\joule}$")
+    plt.xlabel(r"$\alpha / \Omega$")
+    plt.ylabel(r"$y / \text{mJ}$")
     plt.legend(loc="best")
     plt.subplot(1, 2, 2)
     plt.plot(x, y, label="Kurve")
-    plt.xlabel(r"$\alpha \mathbin{/} \unit{\ohm}$")
-    plt.ylabel(r"$y \mathbin{/} \unit{\micro\joule}$")
+    plt.xlabel(r"$\alpha / \Omega$")
+    plt.ylabel(r"$y / \text{mJ}$")
     plt.legend(loc="best")
-    # in matplotlibrc leider (noch) nicht möglich
     plotdefaults(plt)
-    plt.savefig("plot.pdf")
+    plt.savefig("plot.svg")
 
 
 if __name__ == "__main__":

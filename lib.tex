@@ -45,10 +45,9 @@
 \newcommand{\plotPNGSmall}[3]{\figureWithWidth{#1}{#2}{0.6}{\label{#3}}{png}}
 \newcommand{\plotPNGTiny}[3]{\figureWithWidth{#1}{#2}{0.3}{\label{#3}}{png}}
 \newcommand{\plotPNGWrap}[3]{
-\begin{wrapfigure}{r}{0.35\textwidth}
-  \begin{center}
-    \includegraphics[width=0.3\textwidth]{#1}
-  \end{center}
+\begin{wrapfigure}{r}{0.4\textwidth}
+  \centering
+  \includegraphics[width=0.35\textwidth]{#1}
   \caption{#2}
   \label{#3}
 \end{wrapfigure}

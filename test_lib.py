@@ -1,7 +1,7 @@
 import uncertainties as un
 import pytest
 import io
-from lib import new_command_tex_float, __makeconstants, format_tex_float
+from lib import new_command_tex_float, __makeconstants, format_tex_float, _maketables
 
 
 @pytest.mark.parametrize(
@@ -24,7 +24,7 @@ from lib import new_command_tex_float, __makeconstants, format_tex_float
 )
 def test___makeconstants(constants, expected):
     fd = io.StringIO()
-    __makeconstants(constants, fd)
+    __makeconstants(constants, fd, None)
     assert fd.getvalue() == expected
 
 
@@ -86,3 +86,23 @@ def test_new_command_tex_float(key, value, expected):
 )
 def test_format_tex_float(value, expected):
     assert format_tex_float(value) == expected
+
+def test__maketables():
+    assert _maketables(
+        [
+            {
+                "tex": "MacroName",
+                "name": r"Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$",
+                "rowdescription": [r"$T_1 [\degC]$", r"$p_1 [\Unit{mbar}]$"],
+                "content": [[1, 2], [3, 4]],
+            },
+        ]
+    ) == r"""% usage: \makeTableMacroName{<ref>}
+\newcommand{\makeTableMacroName}[1]{
+\tableAny{Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$}{|r|r|}{#1}{
+\headerAny{$T_1 [\degC]$&$p_1 [\Unit{mbar}]$}
+\entryAny{1&2}
+\entryAny{3&4}
+}
+}
+"""

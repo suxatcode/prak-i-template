@@ -1,7 +1,11 @@
 main:
 	mkdir -p build
-	latexmk -pvc main
+	typst w main.typ build/main.pdf
 .PHONY: main
+main-latex:
+	mkdir -p build
+	latexmk -pvc main
+.PHONY: main-latex
 plot:
 	while :; do inotifywait -e modify,close_write,move $$(fd .py); make plot-build; done
 .PHONY: plot

@@ -70,7 +70,7 @@ def format_tex_float(value, always_parenthesis=False):
         except (ValueError, np.core._exceptions.UFuncTypeError):
             pass  # unp.log10(un.ufloat(0, N)) throws
         err = "{:f}".format(value).split("+/-")
-        return r"{}{} \pm{{}} {}{}".format(prefix, err[0], err[1], appendix)
+        return r"${}{} \pm{{}} {}{}$".format(prefix, err[0], err[1], appendix)
     except (IndexError, ValueError):
         return str(value)
 

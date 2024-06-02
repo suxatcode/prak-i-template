@@ -79,7 +79,7 @@ def test_new_command_tex_float(key, value, expected):
 @pytest.mark.parametrize(
     "value, expected",
     [
-        [un.ufloat(0.0001, 0.00001), r"(0.100 \pm{} 0.010) \cdot 10^{-3}"],
+        [un.ufloat(0.0001, 0.00001), r"$(0.100 \pm{} 0.010) \cdot 10^{-3}$"],
         [1.000, r"1.0"],
         [r"abc", r"abc"],
     ],

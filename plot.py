@@ -36,7 +36,7 @@ tex_tables.append(
 # ax[0].set_xlabel("d [cm]")
 # ax[0].set_ylabel("N [1/60s]")
 # ax[0].legend()
-# plt.savefig("plot.svg")
+# plt.savefig("build/plot.svg")
 # plt.show()
 
 
@@ -54,7 +54,7 @@ def exampleplot():
     plt.ylabel(r"$y / \text{mJ}$")
     plt.legend(loc="best")
     plotdefaults(plt)
-    plt.savefig("plot.svg")
+    plt.savefig("build/plot.svg")
 
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
 main:
+	mkdir -p build
 	latexmk -pvc main
 .PHONY: main
 plot:
@@ -16,7 +17,7 @@ plot-build-latex:
 clean:
 	latexmk -c
 	rm -f *.log *.run.xml *.synctex *.toc
-	rm -rf __pycache__
+	rm -rf __pycache__ build
 .PHONY: clean
 ipython:
 	ipython

@@ -2,19 +2,7 @@
 **.vim
 
 # latex
-**.aux
-**.fdb_latexmk
-**.fls
-**.log
-**.out
-**.pdf
-**.synctex
-**.bbl
-**.bcf
-**.blg
-**.run.xml
-**.svg
-**.toc
+build/
 svg-inkscape/
 
 # python

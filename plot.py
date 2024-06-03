@@ -19,6 +19,7 @@ tex = {
     "TODOREMOVETHIS": un.ufloat(1, 0.1),
 }
 data = [[1, 2], [2, 3]]
+tex_tables = []
 tex_tables.append(
     {
         "tex": "TODOREMOVETHIS",
@@ -59,7 +60,7 @@ def exampleplot():
 
 if __name__ == "__main__":
     exampleplot()
-    maketables()
+    maketables(tex_tables, 4)
     makeconstants(tex)
 
 print("done!")

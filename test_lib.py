@@ -1,7 +1,7 @@
 import uncertainties as un
 import pytest
 import io
-from lib import new_command_tex_float, __makeconstants, format_tex_float
+from lib import new_command_tex_float, __makeconstants, format_tex_float, _maketables
 
 
 @pytest.mark.parametrize(
@@ -24,7 +24,7 @@ from lib import new_command_tex_float, __makeconstants, format_tex_float
 )
 def test___makeconstants(constants, expected):
     fd = io.StringIO()
-    __makeconstants(constants, fd)
+    __makeconstants(constants, fd, None)
     assert fd.getvalue() == expected
 
 
@@ -80,9 +80,179 @@ def test_new_command_tex_float(key, value, expected):
     "value, expected",
     [
         [un.ufloat(0.0001, 0.00001), r"$(0.100 \pm{} 0.010) \cdot 10^{-3}$"],
-        [1.000, r"1.0"],
+        [1.000, r"1"],
         [r"abc", r"abc"],
     ],
 )
 def test_format_tex_float(value, expected):
     assert format_tex_float(value) == expected
+
+
+@pytest.mark.parametrize(
+    "name, tables, exp",
+    [
+        [
+            "simple table",
+            [
+                {
+                    "tex": "MacroName",
+                    "name": r"Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$",
+                    "rowdescription": [r"$T_1 [\degC]$", r"$p_1 [\Unit{mbar}]$"],
+                    "content": [[1, 2], [3, 4]],
+                },
+            ],
+            [
+                r"""% usage: \makeTableMacroName{<ref>}
+\newcommand{\makeTableMacroName}[1]{
+\tableAny{Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$}{|r|r|}{#1}{
+\headerAny{$T_1 [\degC]$&$p_1 [\Unit{mbar}]$}
+\entryAny{1&2}
+\entryAny{3&4}
+}
+}
+"""
+            ],
+        ],
+        [
+            "table with different precision per column",
+            [
+                {
+                    "tex": "MacroName",
+                    "name": r"Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$",
+                    "rowdescription": [r"$T_1 [\degC]$", r"$p_1 [\Unit{mbar}]$"],
+                    "content": [[1.111111, 2.2222222222], [3, 4]],
+                    "precision": [1, 2],
+                },
+            ],
+            [
+                r"""% usage: \makeTableMacroName{<ref>}
+\newcommand{\makeTableMacroName}[1]{
+\tableAny{Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$}{|r|r|}{#1}{
+\headerAny{$T_1 [\degC]$&$p_1 [\Unit{mbar}]$}
+\entryAny{1.1&2.22}
+\entryAny{3&4}
+}
+}
+"""
+            ],
+        ],
+        [
+            "table with integer, and float column",
+            [
+                {
+                    "tex": "MacroName",
+                    "name": r"Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$",
+                    "rowdescription": [r"$T_1 [\degC]$", r"$p_1 [\Unit{mbar}]$"],
+                    "content": [[1, 2.2222222222], [3, 4.0]],
+                    "precision": [None, 2],
+                },
+            ],
+            [
+                r"""% usage: \makeTableMacroName{<ref>}
+\newcommand{\makeTableMacroName}[1]{
+\tableAny{Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$}{|r|r|}{#1}{
+\headerAny{$T_1 [\degC]$&$p_1 [\Unit{mbar}]$}
+\entryAny{1&2.22}
+\entryAny{3&4}
+}
+}
+"""
+            ],
+        ],
+        [
+            "table with single column precision (dim=(n,1))",
+            [
+                {
+                    "tex": "MacroName",
+                    "name": r"Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$",
+                    "rowdescription": [r"$T_1 [\degC]$"],
+                    "content": [[2.22222e-1], [2.2222]],
+                    "precision": [2],
+                },
+            ],
+            [
+                r"""% usage: \makeTableMacroName{<ref>}
+\newcommand{\makeTableMacroName}[1]{
+\tableAny{Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$}{|r|}{#1}{
+\headerAny{$T_1 [\degC]$}
+\entryAny{0.22}
+\entryAny{2.22}
+}
+}
+"""
+            ],
+        ],
+        [
+            "table with single column precision (dim=(n,))",
+            [
+                {
+                    "tex": "MacroName",
+                    "name": r"Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$",
+                    "rowdescription": [r"$T_1 [\degC]$"],
+                    "content": [2.22222e-1, 2.2222],
+                    "precision": [2],
+                },
+            ],
+            [
+                r"""% usage: \makeTableMacroName{<ref>}
+\newcommand{\makeTableMacroName}[1]{
+\tableAny{Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$}{|r|}{#1}{
+\headerAny{$T_1 [\degC]$}
+\entryAny{0.22}
+\entryAny{2.22}
+}
+}
+"""
+            ],
+        ],
+        [
+            "table with relative precision",
+            [
+                {
+                    "tex": "MacroName",
+                    "name": r"Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$",
+                    "rowdescription": [r"$T_1 [\degC]$", r"$p_1 [\Unit{mbar}]$"],
+                    "content": [[1.1111, 2.22e-10], [33.33, 444.444]],
+                    "precision": [.001, .001],
+                },
+            ],
+            [
+                r"""% usage: \makeTableMacroName{<ref>}
+\newcommand{\makeTableMacroName}[1]{
+\tableAny{Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$}{|r|r|}{#1}{
+\headerAny{$T_1 [\degC]$&$p_1 [\Unit{mbar}]$}
+\entryAny{1.111&(0.222) \cdot 10^{-9}}
+\entryAny{33.3&444}
+}
+}
+"""
+            ],
+        ],
+# XXX: don't use it, it makes no sense
+#        [
+#            "table with relative precision and un.ufloat's",
+#            [
+#                {
+#                    "tex": "MacroName",
+#                    "name": r"Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$",
+#                    "rowdescription": [r"$T_1 [\degC]$"],
+#                    "content": [[un.ufloat(1.1111, .11)], [un.ufloat(2.22e-10, 2e-11)]],
+#                    "precision": [.0001],
+#                },
+#            ],
+#            [
+#                r"""% usage: \makeTableMacroName{<ref>}
+#\newcommand{\makeTableMacroName}[1]{
+#\tableAny{Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$}{|r|}{#1}{
+#\headerAny{$T_1 [\degC]$}
+#\entryAny{$1.1 \pm{} 0.1$}
+#\entryAny{(0.2 \pm{} 0.02) \cdot 10^{-9}}
+#}
+#}
+#"""
+#            ],
+#        ]
+    ],
+)
+def test__maketables(name, tables, exp):
+    assert _maketables(tables) == exp

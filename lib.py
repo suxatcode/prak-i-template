@@ -59,6 +59,10 @@ def format_tex_float(value, precision=None, always_parenthesis=False):
     if value is None:
         return ""
     try:
+        #print("XXX", value, precision)
+        if type(precision) is float and type(value) is float:
+            exp = np.round(unp.log10(value).item())
+            precision = int(abs(unp.log10(precision * 10**exp).item()))
         appendix = ""
         prefix = ""
         if always_parenthesis:
@@ -71,7 +75,8 @@ def format_tex_float(value, precision=None, always_parenthesis=False):
                 appendix = r") \cdot 10^{%d}" % reduce
                 prefix = r"("
                 value *= 10**__reduce_by
-        except (ValueError, np.core._exceptions.UFuncTypeError):
+        except (ValueError, np.core._exceptions.UFuncTypeError) as e:
+            print("XXX", e)
             pass  # unp.log10(un.ufloat(0, N)) throws
         if precision is None:
             err = "{}".format(value).split("+/-")
@@ -80,9 +85,10 @@ def format_tex_float(value, precision=None, always_parenthesis=False):
         return r"${}{} \pm{{}} {}{}$".format(prefix, err[0], err[1], appendix)
     except (IndexError, ValueError):
         if precision is None:
-            return "{}".format(value)
+            f = "{}".format(value)
         else:
-            return "{:.{prec}f}".format(value, prec=precision)
+            f = "{:.{prec}f}".format(value, prec=precision)
+        return prefix + f.rstrip("0").rstrip(".") + appendix
 
 
 def makeconstants(tex, precision=None):

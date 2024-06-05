@@ -1,6 +1,7 @@
 // 'Pdf build/main.pdf'
-#import "./lib.typ": praktikum
-#show: praktikum.with(
+#import "./lib.typ" as lib
+#let lang = "de"
+#show: lib.praktikum.with(
   experimentNo: "XXX",
   experimentName: "experiment name",
   initVersuchAm: "2024-MM-DD",
@@ -8,16 +9,17 @@
     (name: "Laurin Hagemann", email: "laurin.hagemann@udo.edu"),
     (name: "Clara Sondermann", email: "clara.sondermann@udo.edu"),
   ),
+  lang: lang,
 )
 
-= Goal
-= Theory
+= #lib.goal.at(lang)
+= #lib.theory.at(lang)
 #include "section/theory.typ"
 // = Task
 // = Preparation
 // = Experimental Setup and Experimental Procedure
-= Experimental Setup
-= Experimental Procedure
-= Measurements
-= Analysis
-= Discussion
+= #lib.expsetup.at(lang)
+= #lib.expprocedure.at(lang)
+= #lib.measurements.at(lang)
+= #lib.analysis.at(lang)
+= #lib.discussion.at(lang)

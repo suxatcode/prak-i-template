@@ -4,9 +4,19 @@
   initVersuchAm: "experiment date",
   authors: ((name: "example author", email: "me@example.com")),
   paper-size: "us-letter",
+  lang: "en",
   body,
 ) = {
+  set text(lang: lang)
+  // make links blue
+  show link: set text(fill: rgb(0, 0, 255))
+  // underline links
+  show link: underline
+  // surround refs with a blue box
+  show ref: box.with(stroke: blue, inset: (bottom: 2pt))
+
   let title = [V#experimentNo: #experimentName]
+  // set pdf meta-info
   set document(title: title, author: authors.map(author => author.name))
 
   // display title
@@ -26,18 +36,30 @@
     }))
   )
   v(50pt, weak: true)
+  let experiment = (
+    de: "Experiment am",
+    en: "Experiment",
+  )
+  let submission = (
+    en: "Submission",
+    de: "Abgabe am",
+  )
 
   // display experiment dates
   align(center, grid(
     columns: 2 * (1fr,),
     gutter: 12pt,
-    text(16pt, [Experiment: #initVersuchAm]),
-    text(16pt, [Submission: #datetime.today().display()]),
+    text(16pt, [#experiment.at(lang): #initVersuchAm]),
+    text(16pt, [#submission.at(lang): #datetime.today().display()]),
   ))
 
   // display TU Dortmund things
   v(220pt, weak: true)
-  align(center, text(16pt, [TU Dortmund -- Fakultät Physik]))
+  let fakphys = (
+    en: "Faculty of Physics",
+    de: "Fakultät Physik",
+  )
+  align(center, text(16pt, [TU Dortmund -- #fakphys.at(lang)]))
 
   // display outline
   let appendix(body) = {
@@ -59,8 +81,40 @@
 
   pagebreak(weak:true)
 
-  bibliography("literature.bib", title: "References")
+  let references = (
+    en: "References",
+    de: "Referenzen",
+  )
+  bibliography("literature.bib", title: references.at(lang))
 }
 #let TODO(body) = {
   text(stroke: red, [TODO: #body])
 }
+#let goal = (
+  de: "Zielsetzung",
+  en: "Goal",
+)
+#let theory = (
+  de: "Theorie",
+  en: "Theory",
+)
+#let expsetup = (
+  de: "Versuchsaufbau",
+  en: "Experimental Setup",
+)
+#let expprocedure = (
+  de: "Versuchsdurchfuehrung",
+  en: "Experimental Procedure",
+)
+#let measurements = (
+  de: "Messwerte",
+  en: "Measurements",
+)
+#let analysis = (
+  de: "Auswertung",
+  en: "Analysis",
+)
+#let discussion = (
+  de: "Diskussion",
+  en: "Discussion",
+)

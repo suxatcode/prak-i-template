@@ -59,7 +59,7 @@
 
   pagebreak(weak:true)
 
-  bibliography("literature.bib")
+  bibliography("literature.bib", title: "References")
 }
 #let TODO(body) = {
   text(stroke: red, [TODO: #body])

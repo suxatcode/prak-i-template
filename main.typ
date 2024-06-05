@@ -1,4 +1,4 @@
-// 'Pdf main.pdf'
+// 'Pdf build/main.pdf'
 #import "./lib.typ": praktikum
 #show: praktikum.with(
   experimentNo: "XXX",
@@ -10,5 +10,14 @@
   ),
 )
 
+= Goal
 = Theory
 #include "section/theory.typ"
+// = Task
+// = Preparation
+// = Experimental Setup and Experimental Procedure
+= Experimental Setup
+= Experimental Procedure
+= Measurements
+= Analysis
+= Discussion

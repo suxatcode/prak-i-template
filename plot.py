@@ -18,13 +18,23 @@ from lib import *
 tex = {
     "TODOREMOVETHIS": un.ufloat(1, 0.1),
 }
-data = [[1, 2], [2, 3]]
+tables = []
+data = [
+    [un.ufloat(1.1, 0.1), un.ufloat(2.2, 0.2)],
+    [un.ufloat(1.123456e-10, 1e-11), un.ufloat(1.1, 0.1)],
+]
 tex_tables = []
 tex_tables.append(
     {
         "tex": "TODOREMOVETHIS",
         "name": r"Messreihe $X_i$",
         "rowdescription": [r"$X_i$", r"$\alpha{}_i$"],
+        "content": data,
+    }
+)
+tables.append(
+    {
+        "tex": "sample",
         "content": data,
     }
 )
@@ -60,7 +70,8 @@ def exampleplot():
 
 if __name__ == "__main__":
     exampleplot()
-    maketables(tex_tables, 4)
+    maketables(tex_tables)
+    make_typst_tables(tables)
     makeconstants(tex)
 
 print("done!")

@@ -13,13 +13,21 @@
 )
 
 = #lib.goal.at(lang)
+
 = #lib.theory.at(lang)
 #include "section/theory.typ"
+
 // = Task
 // = Preparation
 // = Experimental Setup and Experimental Procedure
+
 = #lib.expsetup.at(lang)
+
 = #lib.expprocedure.at(lang)
+
 = #lib.measurements.at(lang)
+#lib.maketable("sample", <tab-sample>, rows: ([$A space slash$ m], [$B space slash$ s]), caption: "sample table")
+
 = #lib.analysis.at(lang)
+
 = #lib.discussion.at(lang)

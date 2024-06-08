@@ -45,12 +45,12 @@
   )
   v(50pt, weak: true)
   let experiment = (
-    de: "Experiment am",
+    de: "Experiment",
     en: "Experiment",
   )
   let submission = (
     en: "Submission",
-    de: "Abgabe am",
+    de: "Abgabe",
   )
 
   // display experiment dates
@@ -126,3 +126,34 @@
   de: "Diskussion",
   en: "Discussion",
 )
+
+// table from yaml
+#let maketable(name, ref, caption: "caption", rows: (), columnalign: center) = {
+  let tables = yaml("data.yml")
+  let tab = tables.at(name)
+  //let columns = tab.rowdescription.map(eval)
+  let n_columns = tab.content.at(0).len()
+  let tabentry(row) = {
+    [#row]
+  }
+  let tickstroke = 1.1pt
+  let thinstroke = 0.7pt
+  let tabstroke = (x, y) => (
+    left: none,
+    right: none,
+    top: if y == 0 { tickstroke } else if y == 1 { thinstroke } else { none },
+    bottom: if y == n_columns { tickstroke },
+  )
+  align(center,
+    [#figure(
+      table(
+        align: columnalign,
+        stroke: tabstroke,
+        columns: n_columns * (auto,), // (80%/n_columns,)
+        table.header(..rows),
+        ..tab.content.flatten().map(tabentry),
+      ),
+      caption: caption,
+    ) #ref],
+  )
+}

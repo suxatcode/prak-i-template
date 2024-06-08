@@ -2,6 +2,7 @@ import numpy as np
 import uncertainties as un
 from uncertainties import unumpy as unp
 from pprint import pp
+import yaml
 
 
 def fuckinglayout(plt):
@@ -59,7 +60,7 @@ def format_tex_float(value, precision=None, always_parenthesis=False):
     if value is None:
         return ""
     try:
-        #print("XXX", value, precision)
+        # print("XXX", value, precision)
         if type(precision) is float and type(value) is float:
             exp = np.round(unp.log10(value).item())
             precision = int(abs(unp.log10(precision * 10**exp).item()))
@@ -168,3 +169,13 @@ def _maketables(tex_tables):
 def mean(ar):
     "calculate the mean of an un.ufloat array"
     return un.ufloat(np.mean(ar).n, np.std([i.n for i in ar]))
+
+
+def make_typst_tables(input_tables, file="data.yml"):
+    with open(file, "w") as fd:
+        tables = dict()
+        for tab in input_tables:
+            tab["content"] = [[[elem.nominal_value, elem.std_dev] for elem in row] for row in tab["content"]]
+            tables[tab["tex"]] = tab
+        print(tables)
+        yaml.safe_dump(tables, fd)

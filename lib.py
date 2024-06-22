@@ -36,7 +36,7 @@ def new_command_tex_float(key, value, precision=None):
         value *= 10**__reduce_by
     try:
         if precision is None:
-            err = "{}".format(value).split("+/-")
+            err = "{:f}".format(value).split("+/-")
             number = "{}".format(value.n)
         else:
             err = "{:.{prec}f}".format(value, prec=precision).split("+/-")
@@ -79,7 +79,7 @@ def format_tex_float(value, precision=None, always_parenthesis=False):
             print("XXX", e)
             pass  # unp.log10(un.ufloat(0, N)) throws
         if precision is None:
-            err = "{}".format(value).split("+/-")
+            err = "{:f}".format(value).split("+/-")
         else:
             err = "{:.{prec}f}".format(value, prec=precision).split("+/-")
         return r"${}{} \pm{{}} {}{}$".format(prefix, err[0], err[1], appendix)

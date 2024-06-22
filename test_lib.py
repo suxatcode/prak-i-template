@@ -213,7 +213,7 @@ def test_format_tex_float(value, expected):
                     "name": r"Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$",
                     "rowdescription": [r"$T_1 [\degC]$", r"$p_1 [\Unit{mbar}]$"],
                     "content": [[1.1111, 2.22e-10], [33.33, 444.444]],
-                    "precision": [.001, .001],
+                    "precision": [0.001, 0.001],
                 },
             ],
             [
@@ -228,30 +228,98 @@ def test_format_tex_float(value, expected):
 """
             ],
         ],
-# XXX: don't use it, it makes no sense
-#        [
-#            "table with relative precision and un.ufloat's",
-#            [
-#                {
-#                    "tex": "MacroName",
-#                    "name": r"Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$",
-#                    "rowdescription": [r"$T_1 [\degC]$"],
-#                    "content": [[un.ufloat(1.1111, .11)], [un.ufloat(2.22e-10, 2e-11)]],
-#                    "precision": [.0001],
-#                },
-#            ],
-#            [
-#                r"""% usage: \makeTableMacroName{<ref>}
-#\newcommand{\makeTableMacroName}[1]{
-#\tableAny{Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$}{|r|}{#1}{
-#\headerAny{$T_1 [\degC]$}
-#\entryAny{$1.1 \pm{} 0.1$}
-#\entryAny{(0.2 \pm{} 0.02) \cdot 10^{-9}}
-#}
-#}
-#"""
-#            ],
-#        ]
+        # XXX: don't use it, it makes no sense
+        #        [
+        #            "table with relative precision and un.ufloat's",
+        #            [
+        #                {
+        #                    "tex": "MacroName",
+        #                    "name": r"Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$",
+        #                    "rowdescription": [r"$T_1 [\degC]$"],
+        #                    "content": [[un.ufloat(1.1111, .11)], [un.ufloat(2.22e-10, 2e-11)]],
+        #                    "precision": [.0001],
+        #                },
+        #            ],
+        #            [
+        #                r"""% usage: \makeTableMacroName{<ref>}
+        # \newcommand{\makeTableMacroName}[1]{
+        # \tableAny{Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$}{|r|}{#1}{
+        # \headerAny{$T_1 [\degC]$}
+        # \entryAny{$1.1 \pm{} 0.1$}
+        # \entryAny{(0.2 \pm{} 0.02) \cdot 10^{-9}}
+        # }
+        # }
+        # """
+        #            ],
+        #        ]
+        [
+            "2 column table with 4 entries and multicolumnwrap of 2",
+            [
+                {
+                    "tex": "ABC",
+                    "name": r"XYZ",
+                    "rowdescription": [r"r1", r"r2"],
+                    "content": [[1, 2]] * 4,
+                    "multicolumn": 2,
+                }
+            ],
+            [
+                r"""% usage: \makeTableABC{<ref>}
+\newcommand{\makeTableABC}[1]{
+\tableAny{XYZ}{|r|r|r|r|}{#1}{
+\headerAny{r1&r2&r1&r2}
+\entryAny{1&2&1&2}
+\entryAny{1&2&1&2}
+}
+}
+""",
+            ],
+        ],
+        [
+            "1 column table with 4 entries and multicolumnwrap of 4: i.e. 1 line + header",
+            [
+                {
+                    "tex": "ABC",
+                    "name": r"XYZ",
+                    "rowdescription": [r"r1"],
+                    "content": [[1], [2], [3], [4]],
+                    "multicolumn": 4,
+                }
+            ],
+            [
+                r"""% usage: \makeTableABC{<ref>}
+\newcommand{\makeTableABC}[1]{
+\tableAny{XYZ}{|r|r|r|r|}{#1}{
+\headerAny{r1&r1&r1&r1}
+\entryAny{1&2&3&4}
+}
+}
+""",
+            ],
+        ],
+        [
+            "uneven amount of entries, multicolumnwrap of 2",
+            [
+                {
+                    "tex": "ABC",
+                    "name": r"XYZ",
+                    "rowdescription": [r"r1"],
+                    "content": [[1], [2], [3]],
+                    "multicolumn": 2,
+                }
+            ],
+            [
+                r"""% usage: \makeTableABC{<ref>}
+\newcommand{\makeTableABC}[1]{
+\tableAny{XYZ}{|r|r|}{#1}{
+\headerAny{r1&r1}
+\entryAny{1&2}
+\entryAny{3&}
+}
+}
+""",
+            ],
+        ],
     ],
 )
 def test__maketables(name, tables, exp):

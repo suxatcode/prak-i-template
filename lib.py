@@ -2,6 +2,7 @@ import numpy as np
 import uncertainties as un
 from uncertainties import unumpy as unp
 from pprint import pp
+import itertools
 
 
 def fuckinglayout(plt):
@@ -59,7 +60,7 @@ def format_tex_float(value, precision=None, always_parenthesis=False):
     if value is None:
         return ""
     try:
-        #print("XXX", value, precision)
+        # print("XXX", value, precision)
         if type(precision) is float and type(value) is float:
             exp = np.round(unp.log10(value).item())
             precision = int(abs(unp.log10(precision * 10**exp).item()))
@@ -121,6 +122,8 @@ TABLE_TEMPLATE = """\
 #        "name": r"Messreihe $T_1$ mit $p_1 < 1\Unit{bar}$",
 #        "rowdescription": [r"$T_1 [\degC]$", r"$p_1 [\Unit{mbar}]$"],
 #        "content": [ ... ]
+#        "precision": 2,  # optional integer precision, or float percentual precision, or arrow of those
+#        "multicolumn": 2,  # optional integer for multicolumn
 #    }
 def maketables(tex_tables):
     tables = _maketables(tex_tables)
@@ -130,35 +133,47 @@ def maketables(tex_tables):
 
 def _maketables(tex_tables):
     tables = []
+
+    def to_str(entry_or_row):
+        try:
+            N_entries = len(entry_or_row)
+        except TypeError:
+            N_entries = 1  # None type entry
+        precisions = table["precision"] if "precision" in table else [None] * N_entries
+        try:
+            return [
+                format_tex_float(entry, precision=precisions[row])
+                for row, entry in enumerate(entry_or_row)
+            ]
+        except TypeError:
+            return [format_tex_float(entry_or_row, precision=precisions[0])]
+
+    def grouped(iterable, n):
+        "s -> (s0,s1,s2,...sn-1), (sn,sn+1,sn+2,...s2n-1), (s2n,s2n+1,s2n+2,...s3n-1), ..."
+        return itertools.zip_longest(*[iter(iterable)] * n)
+
     for table in tex_tables:
 
-        def to_str(entry_or_row):
-            precisions = (
-                table["precision"]
-                if "precision" in table
-                else [None] * len(entry_or_row)
-            )
-            try:
-                return [
-                    format_tex_float(entry, precision=precisions[row])
-                    for row, entry in enumerate(entry_or_row)
-                ]
-            except TypeError:
-                return [format_tex_float(entry_or_row, precision=precisions[0])]
-
         tabcopy = dict(table)
+        multicol = 1
+        if tabcopy.get("multicolumn"):
+            multicol = tabcopy["multicolumn"]
         try:
             length = len(table["content"][0])
         except (TypeError, IndexError):
             length = 1
         tabcopy["layout"] = "|" + "|".join(["r"] * length) + "|"
+        tabcopy["layout"] = (tabcopy["layout"] * multicol).replace("||", "|")
         tabcopy["content"] = (
-            r"\headerAny{{{}}}".format("&".join(table["rowdescription"])) + "\n"
+            r"\headerAny{{{}}}".format("&".join(table["rowdescription"] * multicol))
+            + "\n"
         )
         tabcopy["content"] += "\n".join(
             [
-                r"\entryAny{" + ("&").join(to_str(entry_or_row)) + r"}"
-                for entry_or_row in table["content"]
+                r"\entryAny{"
+                + "&".join("&".join(to_str(entry)) for entry in entries)
+                + r"}"
+                for entries in grouped(table["content"], multicol)
             ]
         )
         tables.append(TABLE_TEMPLATE.format(**tabcopy))
